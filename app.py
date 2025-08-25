@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template # Import render_template
 from sqlalchemy import create_engine, text
 import pandas as pd
-
+import os
 app = Flask(__name__)
 
 DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")

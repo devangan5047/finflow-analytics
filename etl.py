@@ -7,13 +7,12 @@ def extract_stock_data(ticker):
     """Fetches historical stock data for the given ticker."""
     print(f"Fetching data for {ticker}...")
     stock = yf.Ticker(ticker)
-    df = stock.history(period="3mo") # Get data for the last 3 months
+    df = stock.history(period="3mo")
     df['ticker'] = ticker
     return df
 
 # --- 2. TRANSFORM ---
 def transform_data(df):
-    """Calculates the 50-day moving average."""
     print("Calculating 50-day moving average...")
     df['moving_average_50'] = df['Close'].rolling(window=50).mean()
     df_transformed = df[['ticker', 'Close', 'moving_average_50']].copy()
@@ -22,7 +21,6 @@ def transform_data(df):
 
 # --- 3. LOAD ---
 def load_data_to_db(df, db_engine):
-    """Loads the transformed data into the PostgreSQL database."""
     print("Loading data into the database...")
     df.to_sql(
         'stock_data',

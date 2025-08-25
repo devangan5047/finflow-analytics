@@ -4,7 +4,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-DB_CONNECTION_STRING = "postgresql://postgres:password@localhost:5432/finflow_db"
+DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
 db_engine = create_engine(DB_CONNECTION_STRING)
 
 # --- Page Route ---

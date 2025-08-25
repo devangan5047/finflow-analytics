@@ -19,7 +19,6 @@ jobs:
         with:
           python-version: '3.10'
 
-      # This step now installs libraries for both PostgreSQL and lxml
       - name: Install System Build Dependencies
         run: |
           sudo apt-get update
@@ -28,10 +27,13 @@ jobs:
       - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
+          # Install a fixed version of multiprocess FIRST to solve the build error
+          pip install "multiprocess>=0.70.15"
+          # Then, install all other requirements
           pip install -r requirements.txt
 
       - name: Run tests with pytest
         env:
           DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
         run: |
-          python -m pytest --ignore=tests/test_e2e.py
+          python -m pytest --ignore=tests/test_e_e.py

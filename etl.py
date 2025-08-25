@@ -38,8 +38,11 @@ def load_data_to_db(df, db_engine):
 if __name__ == "__main__":
     TICKERS_TO_PROCESS = ['AAPL', 'MSFT', 'GOOGL']
 
-    # ==> UPDATE THIS LINE WITH YOUR DETAILS <==
-    DB_CONNECTION_STRING = "postgresql://postgres:password@localhost:5432/finflow_db"
+    # Read the connection string from an environment variable
+    DB_CONNECTION_STRING = os.environ.get("DB_CONNECTION_STRING")
+
+    if not DB_CONNECTION_STRING:
+        raise ValueError("DB_CONNECTION_STRING environment variable not set.")
 
     db_engine = create_engine(DB_CONNECTION_STRING)
 

@@ -1,0 +1,29 @@
+name: Scheduled Daily ETL
+
+on:
+  schedule:
+    # Runs at 08:00 UTC every day (you can adjust the time)
+    - cron: '0 8 * * *'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  run-etl-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run ETL Script
+        env:
+          # This passes your GitHub secret to the script as an environment variable
+          DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
+        run: python etl.py
